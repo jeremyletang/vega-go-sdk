@@ -8,6 +8,7 @@ import (
 
 	"code.vegaprotocol.io/vega/protos/vega"
 	commandspb "code.vegaprotocol.io/vega/protos/vega/commands/v1"
+	walletpb "code.vegaprotocol.io/vega/protos/vega/wallet/v1"
 )
 
 const (
@@ -22,9 +23,13 @@ func main() {
 		log.Fatalf("unable to startup client: %v", err)
 	}
 
-	err = client.SendTransaction(context.Background(), pubkey, &commandspb.VoteSubmission{
-		ProposalId: "90e71c52b2f40db78efc24abe4217382993868cd24e45b3dd17147be4afaf884",
-		Value:      vega.Vote_VALUE_NO,
+	err = client.SendTransaction(context.Background(), pubkey, &walletpb.SubmitTransactionRequest{
+		Command: &walletpb.SubmitTransactionRequest_VoteSubmission{
+			VoteSubmission: &commandspb.VoteSubmission{
+				ProposalId: "90e71c52b2f40db78efc24abe4217382993868cd24e45b3dd17147be4afaf884",
+				Value:      vega.Vote_VALUE_NO,
+			},
+		},
 	})
 
 	if err != nil {

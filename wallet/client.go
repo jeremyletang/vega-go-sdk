@@ -5,11 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
 
-	"github.com/golang/protobuf/proto"
+	walletpb "code.vegaprotocol.io/vega/protos/vega/wallet/v1"
 )
 
 const (
@@ -47,8 +48,8 @@ func NewClient(walletAddr, token string) (*Client, error) {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected status from health endpoint: %v")
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
+		return nil, fmt.Errorf("unexpected status from health endpoint: %v", resp.StatusCode)
 	}
 
 	return &Client{
@@ -58,7 +59,7 @@ func NewClient(walletAddr, token string) (*Client, error) {
 	}, nil
 }
 
-func (c *Client) SendTransaction(ctx context.Context, pubkey string, tx proto.Message) error {
+func (c *Client) SendTransaction(ctx context.Context, pubkey string, tx *walletpb.SubmitTransactionRequest) error {
 	payload := newSendTransactionRequest(clientSendTransaction, pubkey, tx)
 	body, err := json.Marshal(&payload)
 	if err != nil {
@@ -70,16 +71,23 @@ func (c *Client) SendTransaction(ctx context.Context, pubkey string, tx proto.Me
 		return err
 	}
 
-	req.Header.Add("Authorization", c.token)
+	c.addAuthToken(req)
 	resp, err := c.c.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
+	content, _ := ioutil.ReadAll(resp.Body)
+
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unexpected status from health endpoint: %v")
+		return fmt.Errorf("invalid response: %v - %v", resp.StatusCode, string(content))
 	}
 
 	return nil
+}
+
+func (c *Client) addAuthToken(req *http.Request) {
+	req.Header.Add("Origin", c.walletAddr)
+	req.Header.Add("Authorization", fmt.Sprintf("VWT %v", c.token))
 }

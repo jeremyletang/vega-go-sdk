@@ -33,7 +33,8 @@ func newSendTransactionRequest(method, pubkey string, msg proto.Message) *reques
 	rawParams, _ := json.Marshal(params)
 
 	return &request{
-		Version: "2",
+		Version: "2.0",
+		ID:      "1",
 		Method:  method,
 		Params:  rawParams,
 	}
