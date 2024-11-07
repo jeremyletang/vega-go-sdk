@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.22.0
 
 require (
-	code.vegaprotocol.io/vega v0.77.7
+	code.vegaprotocol.io/vega v0.79.0
 	github.com/golang/protobuf v1.5.3
 )
 
