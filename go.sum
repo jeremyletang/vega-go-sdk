@@ -1,5 +1,5 @@
-code.vegaprotocol.io/vega v0.77.7 h1:4VZ88dIii1mng/i14LgiOgKXdj+0Csq8BPJxv4e8fkw=
-code.vegaprotocol.io/vega v0.77.7/go.mod h1:6Qz3v5mEoGHtkBpOTHwg1lfWmV1drAiQ05TtM7OJMh8=
+code.vegaprotocol.io/vega v0.79.0 h1:jQVx4Jcst68DRYx7mZCRVqIVnFlEq7EnxWrcU4eCSOQ=
+code.vegaprotocol.io/vega v0.79.0/go.mod h1:6Qz3v5mEoGHtkBpOTHwg1lfWmV1drAiQ05TtM7OJMh8=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/ethereum/go-ethereum v1.11.6 h1:2VF8Mf7XiSUfmoNOy3D+ocfl9Qu8baQBrCNbo2CXQ8E=
